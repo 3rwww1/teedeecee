@@ -1,0 +1,7 @@
+---
+private_rndc_key: |
+  key "rndc-key" {
+    algorithm hmac-md5;
+    secret "eZOBLlT9/SCWyZ9mrcv4xg==";
+  };
+

@@ -1,0 +1,5 @@
+---
+- name: ensure ntp package is installed
+  apt: name=ntp state=latest
+- name: ensure ntp service is started
+  service: name=ntp state=started enabled=yes

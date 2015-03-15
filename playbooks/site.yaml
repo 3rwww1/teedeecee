@@ -1,0 +1,3 @@
+---
+- include: managers.yaml
+- include: nodes.yaml

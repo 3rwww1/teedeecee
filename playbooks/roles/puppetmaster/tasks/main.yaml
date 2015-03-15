@@ -1,0 +1,9 @@
+---
+- name: download the puppet labs apt repository package
+  get_url: url=https://apt.puppetlabs.com/{{rel}} dest=/tmp/{{rel}} 
+- name: install the puppet labs apt repository
+  apt: deb=/tmp/{{rel}}
+- name: update the package cache
+  apt: update_cache=yes
+- name: install the puppet master agent
+  apt: name=puppetmaster-passenger state=present

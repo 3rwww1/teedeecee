@@ -1,0 +1,5 @@
+---
+- name: modify resolvconf head
+  template: src=resolv.conf.head.j2 dest=/etc/resolvconf/resolv.conf.d/head owner=root group=root mode=0644
+- name: update resolvconf
+  command: resolvconf -u

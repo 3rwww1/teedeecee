@@ -1,0 +1,14 @@
+---
+- name: install ISC dhcp server package
+  apt: name=isc-dhcp-server state=latest
+- name: assign the IP address of the DHCP server
+  replace: dest=/etc/default/isc-dhcp-server regexp='^INTERFACES=".*"$' replace='INTERFACES="eth1"' backup=yes
+  notify: restart dhcpd
+- name: provision DDNS private key file
+  copy: content='{{private_rndc_key}}' dest=/etc/dhcp/ddns-keys/rndc.key owner=root group=root mode=0600
+  notify: restart dhcpd
+- name: provision DHCPD configuration file
+  template: src=dhcpd.conf.j2 dest=/etc/dhcp/dhcpd.conf owner=root group=root mode=0644
+  notify: restart dhcpd
+- name: ensure dhcpd service is started
+  service: name=isc-dhcp-server state=started enabled=yes

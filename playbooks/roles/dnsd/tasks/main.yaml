@@ -1,0 +1,20 @@
+---
+- name: install DNS primary server 
+  apt: name=bind9 state=latest
+- name: configure DNS service options
+  template: src=named.conf.options.j2 dest=/etc/bind/named.conf.options owner=root group=bind mode=0644
+  notify: restart dnsd
+- name: provision DNS zones declarations
+  template: src=named.conf.local.j2 dest=/etc/bind/named.conf.local owner=root group=bind mode=0644
+  notify: restart dnsd
+- name: provision DNS zone definition
+  template: src=db.encarton.lan.j2 dest=/var/lib/bind/db.encarton.lan owner=root group=bind mode=0644
+  notify: restart dnsd
+- name: provision DNS zone definition (reverse)
+  template: src=db.172.16.j2 dest=/var/lib/bind/db.172.16 owner=root group=bind mode=0644
+  notify: restart dnsd
+- name: provision DDNS private key file
+  copy: content='{{private_rndc_key}}' dest=/etc/bind/rndc.key owner=root group=bind mode=0640
+  notify: restart dnsd
+- name: ensure DNS service is started
+  service: name=bind9 enabled=true

@@ -1,0 +1,9 @@
+---
+- hosts: managers 
+  roles:
+    - common
+    - ntpd
+    - dhcpd
+    - dnsd
+    - dnsc
+    - puppetmaster
